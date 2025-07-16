@@ -1,6 +1,11 @@
 <script lang="tsx">
-import { defineComponent, inject, computed, type Ref, ref, onMounted, provide } from "vue";
+import { defineComponent, inject, computed, type Ref, ref, onMounted, h } from "vue";
 import Confirm from "../confirm/index.vue";
+
+function IconComponent(_component: any) {
+  if (!_component) return null;
+  return h(_component);
+}
 
 export default defineComponent({
   props: {
@@ -12,14 +17,7 @@ export default defineComponent({
       type: Object,
       default: () => [],
     },
-    parentData: {
-      type: Object,
-      default: () => Object.create(null),
-    },
-    branchData: {
-      type: Object,
-      default: () => Object.create(null),
-    },
+
     isBranch: {
       type: Boolean,
       default: false,
@@ -39,9 +37,9 @@ export default defineComponent({
     });
 
     const labelbg = computed(() => {
-      let className = props.item.id == "start" ? "node-label start" : "node-label";
+      let className = props.item.id == "start" ? "node-start" : "node-label";
       if (props.item.id !== "start" && flowConf?.preview) {
-        className += ` status_${props.item.status || "not"}`;
+        //  className += ` status_${props.item.status || "not"}`;
       }
       return className;
     });
@@ -84,7 +82,7 @@ export default defineComponent({
     };
   },
   methods: {
-    handleSelect(e: Event) {
+    handleSelect() {
       this.$emit("selected", this.$props.item);
     },
 
@@ -92,11 +90,12 @@ export default defineComponent({
   },
   render() {
     const menuSlot = this.$slots.menu || (() => null);
-
+    const { className = "custom-node", icon = "" } = this.$props.item.data;
+    const IconComp = IconComponent(icon);
     return (
       <div class='node-group'>
         <div class={this.$props.isBranchType ? "node-wrap branch-wrap" : "node-wrap"}>
-          <div class={"node-content"} node-id={this.item.id} onClick={this.handleSelect}>
+          <div class={`node-content flow-node ` + className} node-id={this.item.id} onClick={this.handleSelect}>
             {this.item.id !== "start" ? (
               <div class='del-node'>
                 <div class='del-node-icon' onClick={this.handleDelNode}>
@@ -114,10 +113,10 @@ export default defineComponent({
             <div class={this.labelbg}>
               {this.item.id == "start" ? (
                 <i class='flow-icon'>
-                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'>
+                  <svg data-v-9a20e128='' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'>
                     <path
                       fill='currentColor'
-                      d='M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896m0 832a384 384 0 0 0 0-768 384 384 0 0 0 0 768m-48-247.616L668.608 512 464 375.616zm10.624-342.656 249.472 166.336a48 48 0 0 1 0 79.872L474.624 718.272A48 48 0 0 1 400 678.336V345.6a48 48 0 0 1 74.624-39.936z'
+                      d='M512 512a192 192 0 1 0 0-384 192 192 0 0 0 0 384m0 64a256 256 0 1 1 0-512 256 256 0 0 1 0 512m320 320v-96a96 96 0 0 0-96-96H288a96 96 0 0 0-96 96v96a32 32 0 1 1-64 0v-96a160 160 0 0 1 160-160h448a160 160 0 0 1 160 160v96a32 32 0 1 1-64 0'
                     ></path>
                   </svg>
                 </i>
@@ -135,7 +134,10 @@ export default defineComponent({
                     value={this.item.title}
                   />
                 ) : (
-                  this.item.title
+                  <div>
+                    {IconComp}
+                    {this.item.title}
+                  </div>
                 )}
               </div>
             </div>
@@ -158,10 +160,6 @@ export default defineComponent({
             ) : (
               <div></div>
             )}
-
-            {/* <div>{this.item.id !== "start" && scoped(this.item)}</div> */}
-
-            {/* {this.item.id == "start" || this.flowConf.readonly ? <div></div> : 1} */}
           </div>
           <div class='line status'>{!this.hasTitleName && <div class='node-menu'>{this.flowConf.readonly ? <div></div> : menuSlot()}</div>}</div>
         </div>
@@ -187,11 +185,8 @@ export default defineComponent({
   }
 
   &-content {
-    width: 200px;
-
     position: relative;
     z-index: 10;
-    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
     &:hover {
       .del-node {
         opacity: 1;
@@ -232,15 +227,6 @@ export default defineComponent({
       word-break: break-all;
     }
   }
-  &-menu {
-  }
-}
-
-.start {
-  background: #268bfb;
-}
-.error {
-  outline: 2px solid #f56c6c;
 }
 
 .branch-wrap {

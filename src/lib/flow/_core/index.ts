@@ -105,6 +105,7 @@ export function createAddNode(item: FLOWNODE, parent: any, flow: FLOWNODE[], isB
   if (isBranch) {
     if (item.type == "condition") {
       const i = parent.children.findIndex((i: any) => i.id === item.id);
+
       pushItem = parent.children[i].children;
       idx = -1;
     }

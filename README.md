@@ -1,6 +1,6 @@
 ### install
 
-npm install simplest-css-flow
+npm install simplest-flow
 
 ### 普通节点数据结构
 

@@ -1,11 +1,11 @@
 {
-  "name": "css-flow",
+  "name": "simplest-flow",
   "private": false,
   "version": "0.0.1",
   "type": "module",
-  "module": "./dist/r-scale-screen.js",
-  "main": "./dist/r-scale-screen.cjs",
-  "unpkg": "./dist/r-scale-screen.iife.js",
+  "module": "./dist/simplest-flow.js",
+  "main": "./dist/simplest-flow.cjs",
+  "unpkg": "./dist/simplest-flow.iife.js",
   "keywords": [
     "vue",
     "vue3",
@@ -17,13 +17,13 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/simplest-scale-screen-ui.js",
-      "require": "./dist/simplest-scale-screen-ui.cjs"
+      "import": "./dist/simplest-flow.js",
+      "require": "./dist/simplest-flow.cjs"
     }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/beierbatuofu/scale-screen.git"
+    "url": "https://github.com/beierbatuofu/flow.git"
   },
   "typings": "type.d.ts",
   "scripts": {

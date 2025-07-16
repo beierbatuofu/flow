@@ -4,15 +4,8 @@ export declare interface FLOWNODE {
   data: Record<string, any>;
   type: NODETYPE;
   title: string;
-  status?: string;
-  prarentId?: string;
-  branchData?: FLOWNODE;
   children?: FLOWNODE[];
 }
 export declare interface BRANCHNODE extends FLOWNODE {
   children: BRANCHNODE[];
-}
-
-declare global {
-  type GX = Record<string, any>;
 }

@@ -5,7 +5,6 @@ import { Plus, Minus, Download } from "@element-plus/icons-vue";
 import html2canvas from "html2canvas";
 import { createDefFlowData, DEFINE_VALUE, createNewNode, createBranchNode, createAddNode } from "@src/lib/flow/_core/index";
 import type { FLOWNODE } from "@src/type";
-
 const { DEFINE_TOP, MAX_SCALE, MIN_SCALE, STEP_COUNT, MAX_LEFT, MAX_TOP } = DEFINE_VALUE;
 
 export default defineComponent({
@@ -203,6 +202,9 @@ export default defineComponent({
           <div class='container'>
             <div ref={(el) => (this.flowRef = el)} onMousedown={this.handleMouseDown} onMouseup={this.handleMouseUp}>
               <flow-branch
+                onSelected={(_node: any) => {
+                  console.log(_node, "node");
+                }}
                 onChange={(d: any) => {
                   this.$emit("change", d);
                 }}

@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, inject, watch } from "vue";
+import { defineComponent, inject, watch, ref } from "vue";
 import flowNode from "../node/index.vue";
 import flowCondition from "../condition/index.vue";
 import type { FLOWNODE } from "@src/type";
@@ -25,17 +25,31 @@ const Branch = defineComponent({
       default: () => [],
     },
 
-    parentData: {
+    parentItem: {
       type: Object,
       default: () => ({}),
+    },
+
+    onSelected: {
+      type: Function,
+    },
+    parent: {
+      type: Object,
+      default: null,
     },
   },
   setup(props, ctx) {
     const flowConf: any = inject("flowConf");
     const flowData: any = inject("flowData");
+    const branchRef = ref();
+    const emitSelect = (node: any) => {
+      ctx.emit("selected", node);
+    };
+
     watch(
       () => props.data,
       () => {
+        console.log(props.data, " props.data");
         ctx.emit("change", props.data);
       },
       {
@@ -46,6 +60,8 @@ const Branch = defineComponent({
     return {
       flowConf,
       flowData,
+      emitSelect,
+      branchRef,
     };
   },
 
@@ -80,18 +96,16 @@ const Branch = defineComponent({
               ) : null}
               {type === "node" && id != "end" ? (
                 <flowNode
+                  onSelected={this.emitSelect}
                   data={this.$props.data}
                   item={item}
                   isBranch={this.$props.isBranch}
                   isBranchType={this.$props.isBranchType}
-                  parentData={this.$props.parentData}
-                  onSelected={(_item: FLOWNODE) => {
-                    this.$emit("selected", _item);
-                  }}
+                  parentItem={this.$props.parentItem}
                   v-slots={{
                     menu: () => {
-                      const parentData: FLOWNODE | object = this.$props.parentData;
-                      const parent = Reflect.ownKeys(parentData).length == 0 ? this.flowData : parentData;
+                      const parentItem: FLOWNODE | object = this.$props.parentItem;
+                      const parent = Reflect.ownKeys(parentItem).length == 0 ? this.flowData : parentItem;
                       return menuSlot(item, parent, this.flowData, this.$props.isBranch);
                     },
                   }}
@@ -102,17 +116,19 @@ const Branch = defineComponent({
                 <flowCondition
                   data={this.$props.data}
                   item={item}
+                  parent={this.$props.parent}
+                  onSelected={this.emitSelect}
                   isBranch={this.$props.isBranch}
                   isBranchType={this.$props.isBranchType}
-                  parentData={this.$props.parentData}
+                  parentItem={this.$props.parentItem}
                   v-slots={{
                     default: () => {
                       return <div>1</div>;
                     },
                     menu: () => {
                       try {
-                        const parentData: FLOWNODE | object = this.$props.parentData;
-                        const parent = Reflect.ownKeys(parentData).length == 0 ? this.flowData : parentData;
+                        const parentItem: FLOWNODE | object = this.$props.parentItem;
+                        const parent = Reflect.ownKeys(parentItem).length == 0 ? this.flowData : parentItem;
                         return menuSlot(item, parent, this.flowData, this.$props.isBranch);
                       } catch (e) {
                         return null;
@@ -155,8 +171,12 @@ const Branch = defineComponent({
                       return menuSlot(...args);
                     },
                   }}
-                  parentData={item}
-                  data={item.children}
+                  onSelected={(node: FLOWNODE) => {
+                    this.$emit("selected", node);
+                  }}
+                  parent={item.type == "branch" ? this.$props.parent : this}
+                  parentItem={item}
+                  data={children}
                   class={`${item.type}-group`}
                   isBranch={true}
                   isBranchType={item.type == "branch"}
@@ -166,7 +186,7 @@ const Branch = defineComponent({
               {type == "branch" && children.length ? (
                 <div class='branch-bottom'>
                   <div class='line'>
-                    <div class='node-menu'>{menuSlot && menuSlot(item, this.$props.parentData, this.flowData, this.$props.isBranch)}</div>
+                    <div class='node-menu'>{menuSlot && menuSlot(item, this.$props.parentItem, this.flowData, this.$props.isBranch)}</div>
                   </div>
                 </div>
               ) : null}
@@ -178,7 +198,7 @@ const Branch = defineComponent({
   },
 });
 
-export default Branch;
+export default Branch as any;
 </script>
 <style lang="scss" scoped>
 .flow {

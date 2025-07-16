@@ -1,6 +1,7 @@
 <script lang="tsx">
-import { defineComponent, inject } from "vue";
+import { defineComponent, inject, getCurrentInstance, onMounted, ref } from "vue";
 import Confirm from "../confirm/index.vue";
+import type { FLOWNODE } from "@src/type";
 
 export default defineComponent({
   props: {
@@ -12,22 +13,27 @@ export default defineComponent({
       type: Object,
       default: () => [],
     },
-    parentData: {
+    parentItem: {
       type: Object,
       default: () => Object.create(null),
     },
-    branchData: {
-      type: Object,
-      default: () => Object.create(null),
-    },
+
     isBranch: {
       type: Boolean,
       default: false,
     },
     isBranchType: { type: Boolean, default: false },
+    parent: {
+      type: Object,
+      default: null,
+    },
   },
   setup(props) {
     const flowConf: any = inject("flowConf");
+
+    onMounted(() => {
+      console.log(getCurrentInstance());
+    });
     const handleDelCondition = (e: MouseEvent) => {
       Confirm.open({
         pageY: e.pageY,
@@ -37,7 +43,18 @@ export default defineComponent({
           const { item, data } = props;
           const idx = data.findIndex((i: any) => i.id === item.id);
           if (idx == void 0) return;
-          data.length > 2 ? data.splice(idx, 1) : (data.length = 0);
+          if (data.length > 2) {
+            data.splice(idx, 1);
+          } else {
+            data.length = 0;
+            props.parent.data.forEach((item: FLOWNODE) => {
+              const { children } = item;
+              if (children && children.length) {
+                const result = children.find((ite) => ite.id === (props.parentItem as FLOWNODE).id);
+                result && (item.children = []);
+              }
+            });
+          }
         })
         .catch(() => {});
     };
@@ -83,7 +100,7 @@ export default defineComponent({
   &-node {
     display: flex;
     flex-direction: column;
-    padding: 0px 30px 0;
+    padding: 0px 10px;
     flex: 1;
   }
 

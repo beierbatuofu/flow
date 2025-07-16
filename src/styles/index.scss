@@ -9,6 +9,12 @@ html {
   }
 }
 
+:root {
+  --node-width: 180px;
+  --start-bg: #268bfb;
+  --node-bg: #fb9337;
+}
+
 .line {
   min-height: 80px;
   position: relative;
@@ -35,7 +41,8 @@ html {
 }
 
 .condition {
-  height: 100%;
+
+  min-height: 300px;
 
   &>.line {
     height: 25px;
@@ -139,4 +146,38 @@ html {
 .node-wrap {
   display: flex;
   flex-direction: column;
+}
+
+
+
+.flow-node {
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.1);
+  width: var(--node-width);
+}
+
+.node-start {
+  background: var(--start-bg);
+  color: #fff;
+  height: 40px;
+  border-radius: 4px;
+  padding: 0 14px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+
+  .title {
+    margin-left: 10px;
+  }
+}
+
+.node-bg {
+  color: var(--node-bg);
+}
+
+
+
+.error {
+  outline: 2px solid #f56c6c;
 }
