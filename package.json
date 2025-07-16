@@ -1,0 +1,52 @@
+{
+  "name": "css-flow",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "module": "./dist/r-scale-screen.js",
+  "main": "./dist/r-scale-screen.cjs",
+  "unpkg": "./dist/r-scale-screen.iife.js",
+  "keywords": [
+    "vue",
+    "vue3",
+    "scale",
+    "flow"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/simplest-scale-screen-ui.js",
+      "require": "./dist/simplest-scale-screen-ui.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beierbatuofu/scale-screen.git"
+  },
+  "typings": "type.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "lib": "vite build"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "element-plus": "^2.10.2",
+    "html2canvas": "^1.4.1",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue-jsx": "^4.2.0",
+    "@vue/tsconfig": "^0.7.0",
+    "sass": "^1.89.2",
+    "sass-loader": "^16.0.5",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-checker": "^0.9.3",
+    "vue-tsc": "^2.2.8"
+  }
+}
