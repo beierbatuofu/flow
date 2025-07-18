@@ -1,5 +1,5 @@
 <template>
-  <Flow style="height: 1000px" ref="flowRef" :default-data="flowData">
+  <Flow onSelectd="handleSelectNode" style="height: 1000px" ref="flowRef" :default-data="flowData">
     <template v-slot:menu="data">
       <el-dropdown @command="handleCommand($event, data)">
         <span class="el-dropdown-link">
@@ -14,6 +14,12 @@
         <!-- <div @click="handleNode(data)">menu</div>
             </template> -->
       </el-dropdown>
+    </template>
+    <template v-slot:node="node">
+      <div>{{ node.title }}</div>
+    </template>
+    <template v-slot:condition="condition">
+      <div>1312321</div>
     </template>
   </Flow>
 </template>
@@ -48,23 +54,23 @@ export default defineComponent({
         case "branch":
           newNodeData = flowRef.value.createBranchNode();
           break;
-        case "start":
-          break;
-        case "end":
-          break;
+
         default:
-          const nodetype: never = _command;
           break;
       }
 
       addItem(newNodeData);
-      console.log(flowData.value, "flowdata.value");
+    };
+
+    const handleSelectNode = (node: any) => {
+      console.log("select", node);
     };
 
     return {
       flowRef,
       flowData,
       handleCommand,
+      handleSelectNode,
     };
   },
 });

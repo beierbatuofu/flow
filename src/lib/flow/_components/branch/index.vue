@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, inject, watch, ref } from "vue";
+import { defineComponent, inject, watch, ref, type Component } from "vue";
 import flowNode from "../node/index.vue";
 import flowCondition from "../condition/index.vue";
 import type { FLOWNODE } from "@src/type";
@@ -49,7 +49,6 @@ const Branch = defineComponent({
     watch(
       () => props.data,
       () => {
-        console.log(props.data, " props.data");
         ctx.emit("change", props.data);
       },
       {
@@ -66,7 +65,23 @@ const Branch = defineComponent({
   },
 
   render() {
-    const menuSlot: any = this.$slots.menu;
+    const menuSlot: (...args: any) => Component =
+      this.$slots.menu ||
+      function () {
+        return <div></div>;
+      };
+
+    const nodeSlot: (d: FLOWNODE) => Component =
+      this.$slots.node ||
+      function (_: FLOWNODE) {
+        return <div></div>;
+      };
+
+    const conditionSlot: (d: FLOWNODE) => Component =
+      this.$slots.condition ||
+      function (_: FLOWNODE) {
+        return <div></div>;
+      };
 
     return (
       <div>
@@ -108,6 +123,9 @@ const Branch = defineComponent({
                       const parent = Reflect.ownKeys(parentItem).length == 0 ? this.flowData : parentItem;
                       return menuSlot(item, parent, this.flowData, this.$props.isBranch);
                     },
+                    node: (d: FLOWNODE) => {
+                      return nodeSlot(d);
+                    },
                   }}
                 />
               ) : null}
@@ -122,8 +140,8 @@ const Branch = defineComponent({
                   isBranchType={this.$props.isBranchType}
                   parentItem={this.$props.parentItem}
                   v-slots={{
-                    default: () => {
-                      return <div>1</div>;
+                    condition: (d: FLOWNODE) => {
+                      return conditionSlot(d);
                     },
                     menu: () => {
                       try {
@@ -170,6 +188,12 @@ const Branch = defineComponent({
                     menu: (...args: [FLOWNODE, FLOWNODE[], boolean, any]) => {
                       return menuSlot(...args);
                     },
+                    node: (d: FLOWNODE) => {
+                      return nodeSlot(d);
+                    },
+                    condition: (d: FLOWNODE) => {
+                      return conditionSlot(d);
+                    },
                   }}
                   onSelected={(node: FLOWNODE) => {
                     this.$emit("selected", node);
@@ -203,7 +227,7 @@ export default Branch as any;
 <style lang="scss" scoped>
 .flow {
   &-end {
-    --end-padding-top: 10px;
+    --end-padding-top: 0px;
     display: block;
     font-size: 14px;
     user-select: none;
@@ -253,12 +277,7 @@ export default Branch as any;
 .branch {
   z-index: 2;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  .node {
-    //  padding: 0 30px 0;
-  }
+
   align-items: center;
 
   &-bottom {

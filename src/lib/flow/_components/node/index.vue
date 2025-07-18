@@ -1,6 +1,7 @@
 <script lang="tsx">
-import { defineComponent, inject, computed, type Ref, ref, onMounted, h } from "vue";
+import { defineComponent, inject, computed, type Ref, ref, onMounted, h, type Component } from "vue";
 import Confirm from "../confirm/index.vue";
+import type { FLOWNODE } from "@src/type";
 
 function IconComponent(_component: any) {
   if (!_component) return null;
@@ -89,9 +90,10 @@ export default defineComponent({
     handleCopy() {},
   },
   render() {
-    const menuSlot = this.$slots.menu || (() => null);
+    const menuSlot: () => Component = this.$slots.menu || (() => <></>);
+    const nodeSlot: ((...args: any) => Component) | undefined = this.$slots.node;
     const { className = "custom-node", icon = "" } = this.$props.item.data;
-    const IconComp = IconComponent(icon);
+
     return (
       <div class='node-group'>
         <div class={this.$props.isBranchType ? "node-wrap branch-wrap" : "node-wrap"}>
@@ -134,19 +136,12 @@ export default defineComponent({
                     value={this.item.title}
                   />
                 ) : (
-                  <div>
-                    {IconComp}
-                    {this.item.title}
-                  </div>
+                  <div>{this.$props.item.title}</div>
                 )}
               </div>
             </div>
-            <div class='node-footer'>
-              {
-                //TODO 节点底部信息
-                // 删除，复制节点 slot
-              }
-            </div>
+            {nodeSlot ? <div class='node-slot'>{nodeSlot(this.$props.item)}</div> : <></>}
+
             {this.hasTitleName ? (
               <div class='new-node-buttons'>
                 <div class='create' onClick={() => (this.$props.item.title = this.value || "未命名节点")}>
@@ -214,17 +209,17 @@ export default defineComponent({
       font-size: 24px;
     }
     div {
-      position: absolute;
-      top: 0;
-      left: 20px;
-      line-height: 40px;
-      right: 20px;
+      // position: absolute;
+      // top: 0;
+      // left: 20px;
+      // line-height: 40px;
+      // right: 20px;
 
-      text-align: center;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      word-break: break-all;
+      // text-align: center;
+      // white-space: nowrap;
+      // text-overflow: ellipsis;
+      // overflow: hidden;
+      // word-break: break-all;
     }
   }
 }
@@ -294,5 +289,9 @@ export default defineComponent({
   .create {
     color: #fb9337;
   }
+}
+.node-slot {
+  border-radius: 0 0 4px 4px;
+  background-color: #fff;
 }
 </style>

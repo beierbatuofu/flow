@@ -10,9 +10,9 @@ html {
 }
 
 :root {
-  --node-width: 180px;
+  --node-width: 200px;
   --start-bg: #268bfb;
-  --node-bg: #fb9337;
+  --main-color: #fb9337;
 }
 
 .line {
@@ -170,11 +170,24 @@ html {
   .title {
     margin-left: 10px;
   }
+
+
 }
 
 .node-bg {
-  color: var(--node-bg);
+  color: var(--main-color);
 }
+
+.node-content {
+  &:has(.node-slot) {
+
+    .node-label,
+    .node-start {
+      border-radius: 4px 4px 0 0;
+    }
+  }
+}
+
 
 
 

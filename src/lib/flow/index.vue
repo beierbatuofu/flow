@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, ref, type Ref, provide, reactive, onMounted, onUnmounted, watch } from "vue";
+import { defineComponent, ref, type Ref, provide, reactive, onMounted, onUnmounted, watch, type Component } from "vue";
 import Flow from "./_components/index";
 import { Plus, Minus, Download } from "@element-plus/icons-vue";
 import html2canvas from "html2canvas";
@@ -177,7 +177,23 @@ export default defineComponent({
     },
   },
   render() {
-    const menuSlot: any = this.$slots.menu || new Function();
+    const menuSlot: (args: any) => Component =
+      this.$slots.menu ||
+      function () {
+        return <div></div>;
+      };
+
+    const nodeSlot: (d: FLOWNODE) => Component =
+      this.$slots.node ||
+      function () {
+        return <div></div>;
+      };
+
+    const conditionSlot: (d: FLOWNODE) => Component =
+      this.$slots.condition ||
+      function () {
+        return <div></div>;
+      };
 
     return (
       <div class='flow-wrap' ref={(el) => (this.flowWrapRef = el)}>
@@ -211,11 +227,11 @@ export default defineComponent({
                 key={this.count}
                 data={this.flowData}
                 v-slots={{
-                  cond: () => {
-                    return <div>1</div>;
+                  condition: (d: FLOWNODE) => {
+                    return conditionSlot(d);
                   },
-                  node: () => {
-                    return <div>1</div>;
+                  node: (d: FLOWNODE) => {
+                    return nodeSlot(d);
                   },
                   menu: (...args: any) => {
                     return menuSlot(args);
@@ -294,6 +310,7 @@ export default defineComponent({
     background: #f0f0f0;
     display: flex;
     flex-direction: column;
+    min-width: 768px;
   }
   &-box {
     width: 100%;

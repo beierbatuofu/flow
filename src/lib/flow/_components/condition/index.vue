@@ -65,11 +65,12 @@ export default defineComponent({
   },
   render() {
     const menuSlot = this.$slots.menu || (() => null);
+    const conditionSlot = this.$slots.condition;
 
     return (
       <div class='condition-node'>
         <div class='line  line-top'></div>
-        <div class='condition-box'>
+        <div class='condition-content'>
           <div class='del-node'>
             <div class='del-node-icon' onClick={this.handleDelCondition}>
               <i class='flow-icon'>
@@ -82,10 +83,9 @@ export default defineComponent({
               </i>
             </div>
           </div>
-          <div class='condition-content'>
-            {!this.flowConf.preview && <h5>分支条件</h5>}
-            <span class='el-icon-delete'></span>
-          </div>
+
+          <div class='condition-title'>所有数据可以进入该分支</div>
+          {conditionSlot ? <div class='condition-slot'>{conditionSlot(this.$props.item)}</div> : null}
         </div>
         <div class='line line-bottom'>
           <div class='node-menu'>{menuSlot()}</div>
@@ -100,44 +100,27 @@ export default defineComponent({
   &-node {
     display: flex;
     flex-direction: column;
-    padding: 0px 10px;
+    padding: 0px 50px;
     flex: 1;
   }
+  &-title {
+    color: #000;
+    font-size: 14px;
+    padding: 10px 5px 10px 15px;
+  }
 
-  &-box {
+  &-content {
     width: 180px;
     border-radius: 4px;
     background: #fff;
+    position: relative;
+    user-select: none;
 
     position: relative;
     z-index: 10;
     &:hover {
       .del-node {
         opacity: 1;
-      }
-    }
-  }
-  &-content {
-    position: relative;
-    user-select: none;
-    h5 {
-      padding: 8px 0px;
-      font-size: 14px;
-      text-align: center;
-      flex: 1;
-    }
-
-    & > span {
-      position: absolute;
-      right: 5px;
-      top: 50%;
-      transform: translateY(-50%);
-      &:last-child {
-        color: #999;
-        cursor: pointer;
-        &:hover {
-          color: #666;
-        }
       }
     }
   }
