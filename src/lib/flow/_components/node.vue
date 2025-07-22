@@ -1,7 +1,6 @@
 <script lang="tsx">
 import { defineComponent, inject, computed, type Ref, ref, onMounted, h, type Component } from "vue";
-import Confirm from "../confirm/index.vue";
-import type { FLOWNODE } from "@src/type";
+import Confirm from "./confirm.vue";
 
 function IconComponent(_component: any) {
   if (!_component) return null;
@@ -208,19 +207,6 @@ export default defineComponent({
     .el-icon-video-play {
       font-size: 24px;
     }
-    div {
-      // position: absolute;
-      // top: 0;
-      // left: 20px;
-      // line-height: 40px;
-      // right: 20px;
-
-      // text-align: center;
-      // white-space: nowrap;
-      // text-overflow: ellipsis;
-      // overflow: hidden;
-      // word-break: break-all;
-    }
   }
 }
 
@@ -260,8 +246,9 @@ export default defineComponent({
   box-sizing: border-box;
   border-radius: 2px;
   padding: 3px;
+  border: 2px solid transparent;
   &:focus {
-    border: 2px solid #268bfb;
+    border-color: #268bfb;
   }
   &::selection {
     background: #94c6ff;

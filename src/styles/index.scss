@@ -13,6 +13,7 @@ html {
   --node-width: 200px;
   --start-bg: #268bfb;
   --main-color: #fb9337;
+  --min-width: 768px
 }
 
 .line {
@@ -146,6 +147,7 @@ html {
 .node-wrap {
   display: flex;
   flex-direction: column;
+
 }
 
 
@@ -165,7 +167,7 @@ html {
   display: flex;
   align-items: center;
   position: relative;
-  justify-content: center;
+
 
   .title {
     margin-left: 10px;

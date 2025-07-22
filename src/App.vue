@@ -1,5 +1,5 @@
 <template>
-  <Flow onSelectd="handleSelectNode" style="height: 1000px" ref="flowRef" :default-data="flowData">
+  <simplest-flow onSelectd="handleSelectNode" style="height: 1000px" ref="flowRef" :default-data="flowData">
     <template v-slot:menu="data">
       <el-dropdown @command="handleCommand($event, data)">
         <span class="el-dropdown-link">
@@ -19,13 +19,13 @@
       <div>{{ node.title }}</div>
     </template>
     <template v-slot:condition="condition">
-      <div>1312321</div>
+      <div>{{ condition.title }}</div>
     </template>
-  </Flow>
+  </simplest-flow>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import Flow from "./lib/flow/index.vue";
+
 import "./styles/index.scss";
 import { Plus } from "@element-plus/icons-vue";
 
@@ -33,7 +33,6 @@ type NODETYPE = "node" | "branch" | "start" | "end";
 
 export default defineComponent({
   components: {
-    Flow,
     Plus,
   },
   setup() {

@@ -1,6 +1,6 @@
-import Branch from "./branch/index.vue";
-import Condition from "./condition/index.vue";
-import Node from "./node/index.vue";
+import Branch from "./branch.vue";
+import Condition from "./condition.vue";
+import Node from "./node.vue";
 
 export default {
   Branch,

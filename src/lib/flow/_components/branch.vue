@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, inject, watch, ref, type Component } from "vue";
-import flowNode from "../node/index.vue";
-import flowCondition from "../condition/index.vue";
+import flowNode from "./node.vue";
+import flowCondition from "./condition.vue";
 import type { FLOWNODE } from "@src/type";
 import { creaetConditionNode } from "@src/lib/flow/_core/index";
 
@@ -286,7 +286,7 @@ export default Branch as any;
     height: 120px;
     .line {
       height: 120px;
-
+      min-width: var(--min-width);
       position: relative;
 
       &::before {

@@ -27,15 +27,16 @@ export default defineConfig((_) => {
       minify: "esbuild",
       lib: {
         entry: "./src/lib/install.ts",
-        name: "rui",
+        name: "simplestFlow",
         formats: ["es", "cjs", "iife"],
       },
 
       rollupOptions: {
-        external: ["vue"],
+        external: ["vue", "element-plus"],
         output: {
           globals: {
             vue: "Vue",
+            "element-plus": "element-plus",
           },
         },
       },

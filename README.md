@@ -2,6 +2,14 @@
 
 npm install simplest-flow
 
-### 普通节点数据结构
+### 节点数据结构
 
-### 分支数据结构
+```
+{
+  data:object
+  id: string
+  title:string
+  type: "node" | "start" | "end" | "condition" | "branch"
+}
+
+```

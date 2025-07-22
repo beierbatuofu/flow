@@ -36,6 +36,7 @@
     "@element-plus/icons-vue": "^2.3.1",
     "element-plus": "^2.10.2",
     "html2canvas": "^1.4.1",
+    "simplest-flow": "^0.0.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {

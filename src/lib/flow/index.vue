@@ -310,7 +310,7 @@ export default defineComponent({
     background: #f0f0f0;
     display: flex;
     flex-direction: column;
-    min-width: 768px;
+    min-width: var(--min-width);
   }
   &-box {
     width: 100%;

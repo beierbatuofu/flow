@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, inject, getCurrentInstance, onMounted, ref } from "vue";
-import Confirm from "../confirm/index.vue";
+import Confirm from "./confirm.vue";
 import type { FLOWNODE } from "@src/type";
 
 export default defineComponent({
@@ -70,7 +70,12 @@ export default defineComponent({
     return (
       <div class='condition-node'>
         <div class='line  line-top'></div>
-        <div class='condition-content'>
+        <div
+          class='condition-content'
+          onClick={() => {
+            this.$emit("selected", this.$props.item);
+          }}
+        >
           <div class='del-node'>
             <div class='del-node-icon' onClick={this.handleDelCondition}>
               <i class='flow-icon'>
