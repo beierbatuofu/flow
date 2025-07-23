@@ -44,7 +44,7 @@ import { defineComponent, ref } from "vue";
 import simplestFlow from 'simplest-flow';
 import { Plus } from "@element-plus/icons-vue";
 
-type NODETYPE = "node" | "branch" | "start" | "end";
+type NODETYPE = "condition" | "node" | "branch" | "start" | "end";
 
 export default defineComponent({
   components: {
