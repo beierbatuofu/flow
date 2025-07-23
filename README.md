@@ -42,7 +42,6 @@ npm install simplest-flow
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import simplestFlow from 'simplest-flow';
-import "./styles/index.scss";
 import { Plus } from "@element-plus/icons-vue";
 
 type NODETYPE = "node" | "branch" | "start" | "end";
