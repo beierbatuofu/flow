@@ -83,6 +83,7 @@ export function creaetConditionNode() {
   const ins = new NodeTemplate<FLOWNODE>("condition");
   ins.set({
     children: [],
+    title: "",
   });
   return ins.get();
 }

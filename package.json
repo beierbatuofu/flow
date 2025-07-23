@@ -1,15 +1,13 @@
 {
   "name": "simplest-flow",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
-  "module": "./dist/simplest-flow.js",
-  "main": "./dist/simplest-flow.cjs",
-  "unpkg": "./dist/simplest-flow.iife.js",
+  "module": "./dist/es/index.mjs",
+  "main": "./dist/cjs/index.cjs",
+  "unpkg": "./dist/iife/index.js",
   "keywords": [
-    "vue",
     "vue3",
-    "scale",
     "flow"
   ],
   "files": [
@@ -17,15 +15,22 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/simplest-flow.js",
-      "require": "./dist/simplest-flow.cjs"
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./global": {
+      "types": "./global.d.ts"
+    },
+    "./es": {
+      "import": "./dist/es/index.mjs",
+      "types": "./dist/es/index.d.ts"
     }
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/beierbatuofu/flow.git"
   },
-  "typings": "type.d.ts",
+  "typings": "./global.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
@@ -36,7 +41,6 @@
     "@element-plus/icons-vue": "^2.3.1",
     "element-plus": "^2.10.2",
     "html2canvas": "^1.4.1",
-    "simplest-flow": "^0.0.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {

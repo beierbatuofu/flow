@@ -15,11 +15,8 @@
             </template> -->
       </el-dropdown>
     </template>
-    <template v-slot:node="node">
+    <template v-slot="node">
       <div>{{ node.title }}</div>
-    </template>
-    <template v-slot:condition="condition">
-      <div>{{ condition.title }}</div>
     </template>
   </simplest-flow>
 </template>

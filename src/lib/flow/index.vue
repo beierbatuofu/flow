@@ -183,14 +183,8 @@ export default defineComponent({
         return <div></div>;
       };
 
-    const nodeSlot: (d: FLOWNODE) => Component =
-      this.$slots.node ||
-      function () {
-        return <div></div>;
-      };
-
-    const conditionSlot: (d: FLOWNODE) => Component =
-      this.$slots.condition ||
+    const defaultSlot: (d: FLOWNODE) => Component =
+      this.$slots.default ||
       function () {
         return <div></div>;
       };
@@ -227,11 +221,8 @@ export default defineComponent({
                 key={this.count}
                 data={this.flowData}
                 v-slots={{
-                  condition: (d: FLOWNODE) => {
-                    return conditionSlot(d);
-                  },
-                  node: (d: FLOWNODE) => {
-                    return nodeSlot(d);
+                  default: (d: FLOWNODE) => {
+                    return defaultSlot(d);
                   },
                   menu: (...args: any) => {
                     return menuSlot(args);

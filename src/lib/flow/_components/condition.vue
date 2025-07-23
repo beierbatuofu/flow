@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, inject, getCurrentInstance, onMounted, ref } from "vue";
+import { defineComponent, inject, getCurrentInstance, onMounted, type Component } from "vue";
 import Confirm from "./confirm.vue";
 import type { FLOWNODE } from "@src/type";
 
@@ -31,9 +31,6 @@ export default defineComponent({
   setup(props) {
     const flowConf: any = inject("flowConf");
 
-    onMounted(() => {
-      console.log(getCurrentInstance());
-    });
     const handleDelCondition = (e: MouseEvent) => {
       Confirm.open({
         pageY: e.pageY,
@@ -65,7 +62,8 @@ export default defineComponent({
   },
   render() {
     const menuSlot = this.$slots.menu || (() => null);
-    const conditionSlot = this.$slots.condition;
+    const defaultSlot: ((...args: any) => Component) | undefined = this.$slots.default;
+    console.log(this.$slots, "this.$slots");
 
     return (
       <div class='condition-node'>
@@ -90,7 +88,7 @@ export default defineComponent({
           </div>
 
           <div class='condition-title'>所有数据可以进入该分支</div>
-          {conditionSlot ? <div class='condition-slot'>{conditionSlot(this.$props.item)}</div> : null}
+          {defaultSlot ? <div class='condition-slot'>{defaultSlot(this.$props.item)}</div> : null}
         </div>
         <div class='line line-bottom'>
           <div class='node-menu'>{menuSlot()}</div>

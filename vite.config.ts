@@ -20,13 +20,14 @@ export default defineConfig((_) => {
     resolve: {
       alias: {
         "@src": new URL("./src", import.meta.url).href,
+        "@node_modules": new URL("./node_modules", import.meta.url).href,
       },
     },
 
     build: {
       minify: "esbuild",
       lib: {
-        entry: "./src/lib/install.ts",
+        entry: ["./src/lib/install.ts"],
         name: "simplestFlow",
         formats: ["es", "cjs", "iife"],
       },

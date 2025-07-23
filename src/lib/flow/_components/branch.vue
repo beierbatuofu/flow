@@ -71,14 +71,8 @@ const Branch = defineComponent({
         return <div></div>;
       };
 
-    const nodeSlot: (d: FLOWNODE) => Component =
-      this.$slots.node ||
-      function (_: FLOWNODE) {
-        return <div></div>;
-      };
-
-    const conditionSlot: (d: FLOWNODE) => Component =
-      this.$slots.condition ||
+    const defaultSlot: (d: FLOWNODE) => Component =
+      this.$slots.default ||
       function (_: FLOWNODE) {
         return <div></div>;
       };
@@ -123,8 +117,8 @@ const Branch = defineComponent({
                       const parent = Reflect.ownKeys(parentItem).length == 0 ? this.flowData : parentItem;
                       return menuSlot(item, parent, this.flowData, this.$props.isBranch);
                     },
-                    node: (d: FLOWNODE) => {
-                      return nodeSlot(d);
+                    default: (d: FLOWNODE) => {
+                      return defaultSlot(d);
                     },
                   }}
                 />
@@ -140,8 +134,8 @@ const Branch = defineComponent({
                   isBranchType={this.$props.isBranchType}
                   parentItem={this.$props.parentItem}
                   v-slots={{
-                    condition: (d: FLOWNODE) => {
-                      return conditionSlot(d);
+                    default: (d: FLOWNODE) => {
+                      return defaultSlot(d);
                     },
                     menu: () => {
                       try {
@@ -188,11 +182,9 @@ const Branch = defineComponent({
                     menu: (...args: [FLOWNODE, FLOWNODE[], boolean, any]) => {
                       return menuSlot(...args);
                     },
-                    node: (d: FLOWNODE) => {
-                      return nodeSlot(d);
-                    },
-                    condition: (d: FLOWNODE) => {
-                      return conditionSlot(d);
+                    default: (d: FLOWNODE) => {
+                      console.log(d, "ddd");
+                      return defaultSlot(d);
                     },
                   }}
                   onSelected={(node: FLOWNODE) => {

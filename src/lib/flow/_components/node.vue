@@ -90,7 +90,7 @@ export default defineComponent({
   },
   render() {
     const menuSlot: () => Component = this.$slots.menu || (() => <></>);
-    const nodeSlot: ((...args: any) => Component) | undefined = this.$slots.node;
+    const defaultSlot: ((...args: any) => Component) | undefined = this.$slots.default;
     const { className = "custom-node", icon = "" } = this.$props.item.data;
 
     return (
@@ -139,7 +139,7 @@ export default defineComponent({
                 )}
               </div>
             </div>
-            {nodeSlot ? <div class='node-slot'>{nodeSlot(this.$props.item)}</div> : <></>}
+            {defaultSlot ? <div class='node-slot'>{defaultSlot(this.$props.item)}</div> : <></>}
 
             {this.hasTitleName ? (
               <div class='new-node-buttons'>
